@@ -2,7 +2,8 @@ version: "3.8"
 services:
   # ui for model service
   web_ui:
-    platform: linux/arm64
+    # platform: linux/x86_64 # for others (mostly) or can just remove this line
+    platform: linux/arm64 # for Mac M1
     container_name: web_ui
     build:
       context: ./services/web_ui
@@ -26,6 +27,7 @@ services:
 
   # reverse proxy
   nginx:
+    # platform: linux/x86_64
     platform: linux/arm64
     container_name: nginx
     restart: always
@@ -42,6 +44,7 @@ services:
 
   # model deployment / model service
   dl_service:
+    # platform: linux/x86_64
     platform: linux/arm64
     container_name: dl_service
     restart: always
@@ -67,9 +70,18 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+      # # Unconmment this field down below in case you have CUDA-enabled GPUs
+      # deploy:
+      #     resources:
+      #         reservations:
+      #             devices:
+      #                 - driver: nvidia
+      #                   device_ids: ['all']
+      #                   capabilities: [gpu]
 
   # sql database
   postgres:
+    # platform: linux/x86_64
     platform: linux/arm64
     container_name: postgres
     image: postgres:15.3
@@ -91,6 +103,7 @@ services:
 
   # ui for database
   pgadmin:
+    # platform: linux/x86_64
     platform: linux/arm64
     container_name: pgadmin
     image: dpage/pgadmin4

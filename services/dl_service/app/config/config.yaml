@@ -1,0 +1,25 @@
+generator:
+  llm_type: openai ### openai,local
+  model: gpt-4o-mini ### gpt-4o-mini, sosoai/hansoldeco-gemma-2-2b-v0.1
+  max_new_tokens: 500
+
+gpu:
+  use: false
+
+data:
+  path: files
+retriever:
+  bm25_retriever: true
+  bm25_top_k: 3
+  chunk_size: 500
+  chunk_overlap: 0
+  embed_model:
+    model_name: upskyy/kf-deberta-multitask
+    embed_dimensional: 768
+    top_k: 10
+  collection_name: kakaobank
+  qdrant_url: http://qdrant:6333 # Or use "http://qdrant:6333" as needed
+  reranker_model:
+    model_name: Dongjin-kr/ko-reranker #corrius/cross-encoder-mmarco-mMiniLMv2-L12-H384-v1
+    top_n: 5
+  vector_store: qdrant

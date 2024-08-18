@@ -5,7 +5,7 @@ __pycache__/
 
 streamlit_app.py
 qdrant_storage/
-app/
+app2/
 # C extensions
 *.so
 
