@@ -1,0 +1,129 @@
+version: "3.8"
+services:
+  # ui for model service
+  web_ui:
+    platform: linux/arm64
+    container_name: web_ui
+    build:
+      context: ./services/web_ui
+      dockerfile: Dockerfile
+      args:
+        WEB_UI_PORT: ${WEB_UI_PORT}
+    env_file:
+      - .env
+    environment:
+      - PREDICT_ENDPOINT=http://nginx:${NGINX_PORT}/query
+      - PROCESS_DOCUMENTS_ENDPOINT=http://nginx:${NGINX_PORT}/process_documents
+    networks:
+      - rag_network
+    ports:
+      - "${WEB_UI_PORT}:${WEB_UI_PORT}"
+    volumes:
+      - ./services/web_ui/app/:/service/app/
+    depends_on:
+      dl_service:
+        condition: service_healthy
+
+  # reverse proxy
+  nginx:
+    platform: linux/arm64
+    container_name: nginx
+    restart: always
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    networks:
+      - rag_network
+    depends_on:
+      dl_service:
+        condition: service_healthy
+
+  # model deployment / model service
+  dl_service:
+    platform: linux/arm64
+    container_name: dl_service
+    restart: always
+    build:
+      context: ./services/dl_service
+      dockerfile: Dockerfile
+      args:
+        DL_SERVICE_PORT: ${DL_SERVICE_PORT}
+    env_file:
+      - .env
+    environment:
+      - DB_CONNECTION_URL=postgresql://dl_user:admin1234@postgres:${POSTGRES_PORT}/dl_pg_db
+    networks:
+      - rag_network
+    volumes:
+      - ./services/dl_service/app/:/service/app/
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl http://127.0.0.1:$${DL_SERVICE_PORT}/health_check"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # sql database
+  postgres:
+    platform: linux/arm64
+    container_name: postgres
+    image: postgres:15.3
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    networks:
+      - rag_network
+    volumes:
+      - ./services/postgres/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ui for database
+  pgadmin:
+    platform: linux/arm64
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin123@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin123
+    networks:
+      - rag_network
+    ports:
+      - "16543:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    networks:
+      - rag_network
+    volumes:
+      - ./qdrant_storage:/qdrant/storage:z
+    restart: unless-stopped
+
+networks:
+  rag_network:
+    driver: "bridge"
+
+volumes:
+  pgadmin_data:
+  pgdata:
