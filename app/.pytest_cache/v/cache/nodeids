@@ -1,0 +1,4 @@
+[
+  "tests/test_endpoints.py::test_process_documents_valid",
+  "tests/test_endpoints.py::test_query_vector_store_valid"
+]

@@ -1,0 +1,21 @@
+data:
+  path: files
+generator:
+  llm_type: openai
+  max_new_tokens: 500
+  model: gpt-4o-mini
+retriever:
+  bm25_retriever: true
+  bm25_top_k: 3
+  chunk_overlap: 0
+  chunk_size: 500
+  collection_name: kakaobank
+  embed_model:
+    embed_dimensional: 768
+    model_name: upskyy/kf-deberta-multitask
+    top_k: 10
+  qdrant_url: http://localhost:6333
+  reranker_model:
+    model_name: Dongjin-kr/ko-reranker
+    top_n: 5
+  vector_store: qdrant
