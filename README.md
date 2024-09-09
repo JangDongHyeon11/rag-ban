@@ -12,6 +12,10 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
   
 - Platform: Docker, Docker-compose
 
+- Rag framework: Llamaindex
+
+- Parsing: Uses SimpleDirectoryReader (LlamaParse,unstructured-io)
+
 - Indexing: Uses SentenceSplitter for indexing into nodes
 
 - Embedding and Model: upskyy/kf-deberta-multitask
@@ -35,6 +39,8 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
 - Machine Learning Service Deployment: FastAPI, Uvicorn, Gunicorn, Nginx
 
 - Streamlit: UI
+
+- Future Additions:Summary,Query Classification
 
 ### Service Ports
 Most of the ports can be customized in the .env file at the root of this repository. Here are the default values:
@@ -103,7 +109,7 @@ toolkit on the host machine to make it work. For Windows/WSL2 users, we found th
 
 
 ### concurrency resolution for requests
--this application implemented concurrency using FastAPI, Uvicorn, Gunicorn, and Nginx. FastAPI's async capabilities allow efficient handling of multiple requests. Uvicorn, an ASGI server,
+- this application implemented concurrency using FastAPI, Uvicorn, Gunicorn, and Nginx. FastAPI's async capabilities allow efficient handling of multiple requests. Uvicorn, an ASGI server,
 runs the FastAPI app with async support. Gunicorn manages multiple Uvicorn worker processes, utilizing multiple CPU cores for better concurrency. Nginx acts as a reverse proxy, 
 load balancing across Gunicorn workers
 This setup ensures our application efficiently manages high concurrency with minimal latency
