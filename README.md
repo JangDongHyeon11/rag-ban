@@ -40,7 +40,7 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
 
 - Streamlit: UI
 
-- Future Additions:Summary,Query Classification,RAGA, Monitoring
+- Future Additions:data preprocessing,Summary,Query Classification,RAGA, Monitoring
 
 ### Service Ports
 Most of the ports can be customized in the .env file at the root of this repository. Here are the default values:
