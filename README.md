@@ -113,3 +113,6 @@ toolkit on the host machine to make it work. For Windows/WSL2 users, we found th
 runs the FastAPI app with async support. Gunicorn manages multiple Uvicorn worker processes, utilizing multiple CPU cores for better concurrency. Nginx acts as a reverse proxy, 
 load balancing across Gunicorn workers
 This setup ensures our application efficiently manages high concurrency with minimal latency
+
+<img width="952" alt="image" src="https://github.com/user-attachments/assets/f3c9785f-ed76-4247-82ee-0288a5d6649e">
+
