@@ -12,11 +12,15 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
   
 - Platform: Docker, Docker-compose
 
+- Vector DB: Qdrant
+
 - Rag framework: Llamaindex
 
-- Parsing: Uses SimpleDirectoryReader (LlamaParse,unstructured-io)
+- Parsing: Uses SimpleDirectoryReader Future Additions(LlamaParse,Unstructured-io,NaverClovaOcr,UpstageDocumentParse)
 
-- Indexing: Uses SentenceSplitter for indexing into nodes
+- Indexing: Uses SentenceSplitter Future Additions(Semantic Splitter,small2big)
+
+- Hybrid Search: Implements hybrid search functionality using the BM25 algorithm. Future Additions(Query Rewriting, HyDE)
 
 - Embedding and Model: upskyy/kf-deberta-multitask
 
@@ -26,15 +30,7 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
 
 - Streaming: ON
 
-- Vector Store: Qdrant for inserting metadata
-
 - LLM: OpenAI or SLM
-
-- Query Retrieval: Implemented with SentenceTransformerRerank using RetrieverQueryEngine
-
-- FastAPI: Handles requests via the FastAPI app
-
-- Hybrid Search: Implements hybrid search functionality using the BM25 algorithm
 
 - Machine Learning Service Deployment: FastAPI, Uvicorn, Gunicorn, Nginx
 
