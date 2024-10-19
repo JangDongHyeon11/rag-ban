@@ -20,7 +20,7 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
 
 - Indexing: Uses SentenceSplitter Future Additions(Semantic Splitter,small2big)
 
-- Hybrid Search: Implements hybrid search functionality using the BM25 algorithm. Future Additions(Query Rewriting, HyDE)
+- Hybrid Search: Implements hybrid search functionality using the BM25 algorithm. Future Additions(Query Rewriting,query expansion ,HyDE)
 
 - Embedding and Model: upskyy/kf-deberta-multitask
 
@@ -30,13 +30,15 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
 
 - Streaming: ON
 
-- LLM: OpenAI or SLM
+- LLM: OpenAI or SLM Future Additions(Claude,Gemini)
+
+- Prompt
 
 - Machine Learning Service Deployment: FastAPI, Uvicorn, Gunicorn, Nginx
 
 - Streamlit: UI
 
-- Future Additions:data preprocessing,Summary,Query Classification,RAGA, Monitoring
+- Future Additions:data preprocessing,Summary,Query Classification,evaluation, Monitoring
 
 ### Service Ports
 Most of the ports can be customized in the .env file at the root of this repository. Here are the default values:
