@@ -14,8 +14,6 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
 
 - Vector DB: Qdrant
 
-- Rag framework: Llamaindex
-
 - Parsing: Uses SimpleDirectoryReader Future Additions(LlamaParse,Unstructured-io,NaverClovaOcr,UpstageDocumentParse)
 
 - Indexing: Uses SentenceSplitter Future Additions(Semantic Splitter,small2big)
@@ -37,6 +35,8 @@ The pipeline is deployed using Docker-compose with a FastAPI app and nginx and G
 - Machine Learning Service Deployment: FastAPI, Uvicorn, Gunicorn, Nginx
 
 - Streamlit: UI
+
+- Rag framework: Llamaindex
 
 - Future Additions:data preprocessing,Summary,Query Classification,evaluation, Monitoring
 
@@ -105,12 +105,4 @@ ubuntu:18.04 to nvidia/cuda:11.4.3-cudnn8-devel-ubuntu20.04 (the text is there i
 need to comment and uncomment) to leverage your GPU(s). You might also need to install nvidia-container-
 toolkit on the host machine to make it work. For Windows/WSL2 users, we found this article very helpful.
 
-
-### concurrency resolution for requests
-- this application implemented concurrency using FastAPI, Uvicorn, Gunicorn, and Nginx. FastAPI's async capabilities allow efficient handling of multiple requests. Uvicorn, an ASGI server,
-runs the FastAPI app with async support. Gunicorn manages multiple Uvicorn worker processes, utilizing multiple CPU cores for better concurrency. Nginx acts as a reverse proxy, 
-load balancing across Gunicorn workers
-This setup ensures our application efficiently manages high concurrency with minimal latency
-
-<img width="952" alt="image" src="https://github.com/user-attachments/assets/f3c9785f-ed76-4247-82ee-0288a5d6649e">
 
